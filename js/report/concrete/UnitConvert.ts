@@ -13,4 +13,8 @@ export class UnitConvert{
                 return 37.8;
         }
     }
+
+    static convertValueToPx(value:number,unit:string):number{
+        return value * UnitConvert.convertToPx(unit);
+    }
 }

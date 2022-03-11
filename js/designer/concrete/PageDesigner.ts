@@ -19,6 +19,10 @@ import { PageElementUiParser } from "./elementui/PageElementUiParser.js";
 import { PageElementRendererParser } from "../../report/concrete/renderer/elementrenderer/PageElementRendererParser.js";
 import { SizeSquare } from "../../report/concrete/description/SizeSquare.js";
 import { Color } from "../../report/concrete/description/Color.js";
+import { ILineElement } from "../../report/domain/description/elements/ILineElement.js";
+import { UnitConvert } from "../../report/concrete/UnitConvert.js";
+import { ITextElement } from "../../report/domain/description/elements/ITextElement.js";
+import { IQrcodeElement } from "../../report/domain/description/elements/IQrcodeElement.js";
 
 export class PageDesigner implements IPageDesigner{
     pageUi: IPageUi;
@@ -48,6 +52,24 @@ export class PageDesigner implements IPageDesigner{
     selectedTarget: IPageElement;
     selectedTargets: IPageElement[] = [];
     addPageElement(elementType: ElementTypes): IPageElement {
+        let posX = 10,posY = 10;
+        while(this.document.elements.find(t=>{
+            if(t.elementType == 'line'){
+                const line = <ILineElement>t;
+                return Math.abs(UnitConvert.convertValueToPx(line.point1.x,line.point1.xUnit) - posX) < 10
+                 && Math.abs(UnitConvert.convertValueToPx(line.point1.y,line.point1.yUnit) - posY) < 10 
+                 || Math.abs(UnitConvert.convertValueToPx(line.point2.x,line.point2.xUnit) - posX) < 10
+                 && Math.abs(UnitConvert.convertValueToPx(line.point2.y,line.point2.yUnit) - posY) < 10 ;
+            }else{
+                const other = <ITextElement | IQrcodeElement>t;
+                return Math.abs(UnitConvert.convertValueToPx(other.position.x,other.position.xUnit) - posX) < 10
+                && Math.abs(UnitConvert.convertValueToPx(other.position.y,other.position.yUnit) - posY) < 10;
+            }
+        })){
+            posX += 20;
+            posY += 20;
+        }
+
         let elem:IPageElement;
         if(elementType == 'text')
             elem = new TextElement({
@@ -58,10 +80,10 @@ export class PageDesigner implements IPageDesigner{
                     hUnit:'mm'
                 }),
                 position:new Position({
-                    x:10,
-                    y:10,
-                    xUnit:'mm',
-                    yUnit:'mm'
+                    x:posX,
+                    y:posY,
+                    xUnit:'px',
+                    yUnit:'px'
                 }),
                 padding:new Padding({
                    top:1,
@@ -100,43 +122,47 @@ export class PageDesigner implements IPageDesigner{
         else if(elementType == 'qrcode')
             elem = new QrcodeElement({
                 size:new SizeSquare({
-                    l:20,
-                    lUnit:'mm'
+                    l:150,
+                    lUnit:'px'
                 }),
                 position:new Position({
-                    x:10,
-                    y:10,
-                    xUnit:'mm',
-                    yUnit:'mm'
+                    x:posX,
+                    y:posY,
+                    xUnit:'px',
+                    yUnit:'px'
                 }),
                 content:'实例文本'
             });
         else if(elementType == 'line')
             elem = new LineElement({
                 point1:new Position({
-                    x:10,
-                    y:20,
-                    xUnit:'mm',
-                    yUnit:'mm'
+                    x:posX,
+                    y:posY,
+                    xUnit:'px',
+                    yUnit:'px'
                 }),
                 point2:new Position({
-                    x:30,
-                    y:20,
-                    xUnit:'mm',
-                    yUnit:'mm'
+                    x:posX+100,
+                    y:posY,
+                    xUnit:'px',
+                    yUnit:'px'
                 }),
                 color:'gray',
                 lineWidth:1,
                 lineStyle:'solid',
                 lineWidthUnit:'mm'
             });
+        else
+            throw `不支持的元素类型${elementType}`;
         this.document.elements.push(elem);
         this.select(elem);
         return elem;
     }
     removePageElements(...pageElements: IPageElement[]): void {
+        const selectAfterRemove = this.selectedTarget != null;
         this.document.elements = this.document.elements.filter(t=>pageElements.indexOf(t) == -1);
-        this.select(this.document.elements[0]);
+        if(selectAfterRemove)
+            this.select(this.document.elements[0]);
     }
     select(...targets: IPageElement[]): void {
         this.selectedTargets = targets.filter(t=>this.document.elements.indexOf(t) != -1);
