@@ -23,7 +23,14 @@ import { Color } from "../../report/concrete/description/Color.js";
 export class PageDesigner implements IPageDesigner{
     pageUi: IPageUi;
     pageRenderer: IPageRenderer<HTMLElement>;
-    designerScale: number;
+    private _designerScale: number = 1;
+    get designerScale():number{
+        return this._designerScale;
+    }
+    set designerScale(value:number){
+        this._designerScale = value;
+        this.refresh();
+    }
 
     constructor(){
         this.pageRenderer = new PageRenderer({
@@ -161,6 +168,7 @@ export class PageDesigner implements IPageDesigner{
         this.pageUi.beforeRender();
         const documentDom = this.pageRenderer.render(this.document);
         this.designerDom.appendChild(documentDom);
+        documentDom.style.transform = `scale(${this.designerScale})`;
         this.pageUi.render(this.document,documentDom);
         this.pageUi.afterRender();
         this.designerDom.scrollLeft = scrollX;

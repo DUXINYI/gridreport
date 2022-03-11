@@ -885,22 +885,17 @@
     </script>
     <script title="UI">
 
-        var designerScale = 100;
         function setDesignerScale(value){
-            designer.designerScale = designerScale;
-            designerScale = Math.round(Math.min(1000,Math.max(0,value)) * 100) / 100;
-            const designerDom = document.querySelector('.page-box');
-            designerDom.style.transform =  `scale(${designerScale / 100})`;
-            layui.form.val('toolbar',{scale:designerScale});
+            designer.designerScale = value;
         }
         function setDesignerScaleUp(){
             const width = document.querySelector('.page-box').offsetWidth;
-            setDesignerScale((width + 100) / width * designerScale);
+            setDesignerScale((width + 100) / width * designer.designerScale);
         }
         function setDesignerScaleDown(){
             const width = document.querySelector('.page-box').offsetWidth;
             if(width > 150)
-            setDesignerScale((width - 100) / width * designerScale);
+            setDesignerScale((width - 100) / width * designer.designerScale);
         }
         // document.querySelector('.designer-dom').addEventListener('mousewheel',function(evt){
         //     let width = document.querySelector('.page-box').offsetWidth;
@@ -1098,7 +1093,7 @@
                 $('.elem-page').show();
             }
 
-            setDesignerScale(designerScale);
+            layui.form.val('toolbar',{scale:designer.designerScale.toFixed(2) * 100});
         }
     </script>
     <script type="module" title="按键操作">

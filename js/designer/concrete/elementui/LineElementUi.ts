@@ -273,8 +273,8 @@ export class LineElementUi implements ILineElementUi{
                 yUnit:this.designer.pageRenderer.options.defaultLengthUnit
             });
 
-            const moveX =  mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX,
-            moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+            const moveX =  (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale,
+            moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
 
             let np1x = this.sizeboxDraggingTarget.initialP1X + moveX;
             let np2x = this.sizeboxDraggingTarget.initialP2X + moveX;
@@ -334,8 +334,8 @@ export class LineElementUi implements ILineElementUi{
             this.sizeboxDraggingTarget.sourceObject.sourceObject.point2.yUnit = 'px';
         } else {
             //改变大小型拖拽
-            const moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX,
-            moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+            const moveX = (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale,
+            moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
 
             const initialX = this.sizeboxDraggingTarget.scaletype ==  1 ? this.sizeboxDraggingTarget.initialP1X : this.sizeboxDraggingTarget.initialP2X,
             initialY = this.sizeboxDraggingTarget.scaletype ==  1 ? this.sizeboxDraggingTarget.initialP1Y : this.sizeboxDraggingTarget.initialP2Y,

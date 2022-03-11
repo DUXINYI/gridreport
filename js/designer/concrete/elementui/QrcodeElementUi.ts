@@ -306,8 +306,8 @@ export class QrcodeElementUi implements IQrcodeElementUi{
             return;
         if (this.sizeboxDraggingTarget.scaletype == null) {
             //位移型拖拽
-            const moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX,
-            moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+            const moveX =(mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale,
+            moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
 
             let x = this.sizeboxDraggingTarget.initialTargetPositionX + moveX,
             y = this.sizeboxDraggingTarget.initialTargetPositionY + moveY;
@@ -355,8 +355,8 @@ export class QrcodeElementUi implements IQrcodeElementUi{
         } else {
             //改变大小型拖拽
             const
-            moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX,
-            moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+            moveX = (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale,
+            moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
 
             const 
             top = this.sizeboxDraggingTarget.offsetTop,

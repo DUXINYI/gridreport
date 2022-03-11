@@ -382,8 +382,8 @@ export class TextElementUi implements ITextElementUi {
             return;
         if (this.sizeboxDraggingTarget.scaletype == null) {
             //位移型拖拽
-            const moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX,
-            moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+            const moveX = (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale,
+            moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
 
             let x = this.sizeboxDraggingTarget.initialTargetPositionX + moveX,
             y = this.sizeboxDraggingTarget.initialTargetPositionY + moveY;
@@ -452,7 +452,7 @@ export class TextElementUi implements ITextElementUi {
                 calcBottomResize.call(this);
             function calcTopResize(): void {
                 const bottom = this.sizeboxDraggingTarget.offsetTop + this.sizeboxDraggingTarget.offsetHeight;
-                const moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+                const moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
                 let height = this.sizeboxDraggingTarget.initialTargetPositionY - moveY;
                 //吸附边界
                 height = bottom - tryCall(bottom - height,absDiff,this.sizeboxDraggingEdgesY);
@@ -476,7 +476,7 @@ export class TextElementUi implements ITextElementUi {
             }
             function calcLeftResize(): void {
                 const right = this.sizeboxDraggingTarget.offsetLeft + this.sizeboxDraggingTarget.offsetWidth;
-                const moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX;
+                const moveX = (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale;
                 let width = this.sizeboxDraggingTarget.initialTargetPositionX - moveX;
                 //吸附边界
                 width = right - tryCall(right - width,absDiff,this.sizeboxDraggingEdgesX);
@@ -498,7 +498,7 @@ export class TextElementUi implements ITextElementUi {
                 this.sizeboxDraggingTarget.sourceObject.sourceObject.size.wUnit = 'px';
             }
             function calcBottomResize(): void {
-                const moveY = mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY;
+                const moveY = (mouseEvent.screenY - this.sizeboxDraggingTarget.initialMousePositionY) / this.designer.designerScale;
                 let height = this.sizeboxDraggingTarget.initialTargetPositionY + moveY;
                 //吸附边界
                 height = tryCall(this.sizeboxDraggingTarget.offsetTop + height,absDiff,this.sizeboxDraggingEdgesY) - this.sizeboxDraggingTarget.offsetTop;
@@ -515,7 +515,7 @@ export class TextElementUi implements ITextElementUi {
                 this.sizeboxDraggingTarget.sourceObject.sourceObject.size.hUnit = 'px';
             }
             function calcRightResize(): void {
-                const moveX = mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX;
+                const moveX = (mouseEvent.screenX - this.sizeboxDraggingTarget.initialMousePositionX) / this.designer.designerScale;
                 let width = this.sizeboxDraggingTarget.initialTargetPositionX + moveX;
                 //吸附边界
                 width = tryCall(this.sizeboxDraggingTarget.offsetLeft + width,absDiff,this.sizeboxDraggingEdgesX) - this.sizeboxDraggingTarget.offsetLeft;
