@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="./style.css">
     <script src="../dist/designer/concrete/UnitConvert.js" type="module"></script>
     <style>
+        .active{
+            background-color: #eeeeee;
+        }
         .qrcode-box{
             color: transparent !important;
         }
@@ -92,7 +95,7 @@
                     onclick="addElement('line')">
                     <img src="./icon/line.png" width="10">
                 </button>
-                <button type="button" id="btnBold"
+                <button type="button" id="btnRemove"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="删除元素"
                     onclick="removeElement()">
                     <i class="fa fa-times"></i>
@@ -175,7 +178,7 @@
                     onclick="switchBold()">
                     <i class="fa fa-bold"></i>
                 </button>
-                <button type="button" id="btnItalics"
+                <button type="button" id="btnItalic"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="斜体"
                     onclick="switchItalic()">
                     <i class="fa fa-italic"></i>
@@ -185,7 +188,7 @@
                     onclick="switchUnderline()">
                     <i class="fa fa-underline"></i>
                 </button>
-                <button type="button" id="btnBold"
+                <button type="button" id="btnWrapping"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="自动换行"
                     onclick="switchWrapping()">
                     <img src="./icon/text-wrapping.png" width="15">
@@ -209,17 +212,17 @@
                 </button>
             </div>
             <div class="layui-btn-group toolStyle elem-text">
-                <button type="button" id="textLeft"
+                <button type="button" id="textTop"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="文字顶对齐"
                     onclick="setVerticalAlign('top')">
                     <img src="./icon/vertical-top.png" width="15">
                 </button>
-                <button type="button" id="textCenter"
+                <button type="button" id="textVerticalCenter"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="文字垂直居中"
                     onclick="setVerticalAlign('center')">
                     <img src="./icon/vertical-center.png" width="15">
                 </button>
-                <button type="button" id="textRight"
+                <button type="button" id="textBottom"
                     class="layui-btn layui-btn-primary layui-btn-sm operation-btn toolInput" title="文字底对齐"
                     onclick="setVerticalAlign('bottom')">
                     <img src="./icon/vertical-bottom.png" width="15">
@@ -250,7 +253,7 @@
                             <textarea class="layui-textarea" name="content" onchange="setContent(event.target.value)" id="textareaContent"></textarea>
                         </div>
                         <div class="layui-form-item">
-                            <button class="layui-btn layui-btn-sm" style="margin-left:43px;" onclick="insertFieldToContent()">插入域</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="margin-left:43px;" onclick="insertFieldToContent()">插入域</button>
                         </div>
                         <div class="layui-form-item elem-text">
                             <label style="margin-right:5px;vertical-align: bottom;">自适应</label>
@@ -988,7 +991,30 @@
         // layui.use(['jquery', 'table', 'laytpl'], function () {
         // });
         function renderTextToolbarDom(element) {
-
+            if(designer.selectedTarget != element)
+                return;
+            const rm = elem=>elem.classList.remove('active');
+            const ad = elem=>elem.classList.add('active');
+            const comparision = {
+                btnBold:element.font.isBold,
+                btnItalic:element.font.isItalic,
+                btnUnderline:element.font.isUnderline,
+                btnWrapping:element.textSetting.isWrapping,
+                textLeft:element.textSetting.horizentalAlign == 'left',
+                textCenter:element.textSetting.horizentalAlign == 'center',
+                textRight:element.textSetting.horizentalAlign == 'right',
+                textTop:element.textSetting.verticalAlign == 'top',
+                textVerticalCenter:element.textSetting.verticalAlign == 'center',
+                textBottom:element.textSetting.verticalAlign == 'bottom'
+            }
+            for(let key in comparision){
+                const elem = document.getElementById(key)
+                if(comparision[key]){
+                    ad(elem)
+                }else{
+                    rm(elem)
+                }
+            }
         }
         function renderQrcodeToolbarDom(element){
 
