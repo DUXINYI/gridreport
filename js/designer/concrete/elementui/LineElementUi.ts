@@ -43,8 +43,9 @@ export class LineElementUi implements ILineElementUi{
     render(element: ILineElement, node: HTMLElement & IBindingSource<ILineElement> & IMeasuredBoundingRect & IObjectBoundingRect, pageNode: HTMLElement & IBindingSource<IPage> & IMeasuredBoundingRect & IObjectBoundingRect): void {
         this.pageNode = pageNode;
         //点击未选择元素时选中
-        node.style.cursor = 'move';
-        node.addEventListener('mousedown', (e) => this.elementnodeMouseDown(e));
+        const nodeLine = node.querySelector('line');
+        nodeLine.style.cursor = 'move';
+        nodeLine.addEventListener('mousedown', (e) => this.elementnodeMouseDown(e));
 
         //放置尺寸框
         if (this.designer.selectedTargets.indexOf(node.sourceObject) != -1) {
@@ -58,7 +59,7 @@ export class LineElementUi implements ILineElementUi{
 
             //如果是因为点击元素而触发的重绘，那么转发鼠标按下事件 实施拖动
             if (DefferMousedown.item != null && DefferMousedown.item.element == node.sourceObject) {
-                sizebox.dispatchEvent(new MouseEvent('mousedown', { buttons: 1, screenX: DefferMousedown.item.positionX, screenY: DefferMousedown.item.positionY }))
+                sizebox.querySelector('line').dispatchEvent(new MouseEvent('mousedown', { buttons: 1, screenX: DefferMousedown.item.positionX, screenY: DefferMousedown.item.positionY }))
             }
         }
     }
@@ -152,12 +153,12 @@ export class LineElementUi implements ILineElementUi{
         
         //尺寸盒外观
         const sizeboxLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+        sizeboxLine.style.cursor = 'move';
         sizebox.appendChild(sizeboxLine);
         LineElementUi.locateLine(sizeboxLine,p1x,p1y,p2x,p2y,w,h);
 
         sizeboxLine.style.stroke = 'gray';
         sizeboxLine.style.strokeWidth = '1';
-        sizebox.style.cursor = 'move';
         
         this.pageNode.appendChild(sizebox);
 
@@ -175,7 +176,7 @@ export class LineElementUi implements ILineElementUi{
         p2box.setAttribute('y',Number.parseFloat(sizeboxLine.getAttribute('y2'))-4+'');
         p2box.scaletype = 2;
         sizebox.appendChild(p2box);
-        sizebox.addEventListener('mousedown', (e) => this.sizeboxMoveareaMouseDown(e));
+        sizeboxLine.addEventListener('mousedown', (e) => this.sizeboxMoveareaMouseDown(e));
 
         this.pageNode.appendChild(sizebox);
 
@@ -235,7 +236,7 @@ export class LineElementUi implements ILineElementUi{
     private sizeboxDraggingEdgesY:number[];
     private sizeboxDraggingTarget: SizeboxNode;
     private sizeboxDraggingMousemoveStartup: boolean = true;
-    raiseDragging(sizebox: SizeboxNode,scalebox?:SizeboxScaleboxNode) {
+    raiseDragging(sizebox: SizeboxNode) {
 
         const elementBoxInfo = new ElementBoxInformation();
         elementBoxInfo.designer = this.designer;
