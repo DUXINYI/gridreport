@@ -1022,59 +1022,69 @@
         function renderLineToolbarDom(element){
 
         }
+        const formatPrecision = (val,len)=>{
+            if(val == null){
+                return val;
+            }
+            if(isNaN(val)){
+                return val;
+            }
+            return Math.round(val * 10**len) / 10**len;
+        }
+        const formatPrecision2 = val => formatPrecision(val,2);
         function renderTextPopupDom(element) {
             if(designer.selectedTarget != element)
                 return;
             const obj = element;
             const formData = {
-                    widthValue: obj.size.w,
+                    widthValue:  formatPrecision2(obj.size.w),
                     selWidthUnit: obj.size.wUnit,
-                    heightValue: obj.size.h,
+                    heightValue: formatPrecision2(obj.size.h),
                     selHeightUnit: obj.size.hUnit,
                     selFont:obj.font.fontFamily,
                     selSize:obj.font.fontSize,
-                    xValue: obj.position.x,
+                    xValue: formatPrecision2(obj.position.x),
                     selXUnit: obj.position.xUnit,
-                    yValue: obj.position.y,
+                    yValue: formatPrecision2(obj.position.y),
                     selYUnit: obj.position.yUnit,
                     content: obj.content,
                     fitContentWidth: obj.fitContent.fitWidth,
                     fitContentHeight: obj.fitContent.fitHeight,
-                    borderTopWidthValue: obj.border.topWidth,
+                    borderTopWidthValue: formatPrecision2(obj.border.topWidth),
                     selBorderTopWidthUnit: obj.border.topWidthUnit,
                     selBorderTopStyle: obj.border.topStyle,
                     borderTopColor:obj.border.topColor,
                     selborderTopColor: obj.border.topColor,
-                    borderBottomWidthValue: obj.border.bottomWidth,
+                    borderBottomWidthValue: formatPrecision2(obj.border.bottomWidth),
                     selBorderBottomWidthUnit: obj.border.bottomWidthUnit,
                     selBorderBottomStyle: obj.border.bottomStyle,
                     borderBottomColor:obj.border.bottomColor,
                     selborderBottomColor: obj.border.bottomColor,
-                    borderLeftWidthValue: obj.border.leftWidth,
+                    borderLeftWidthValue: formatPrecision2(obj.border.leftWidth),
                     selBorderLeftWidthUnit: obj.border.leftWidthUnit,
                     selBorderLeftStyle: obj.border.leftStyle,
                     borderLeftColor:obj.border.leftColor,
                     selborderLeftColor: obj.border.leftColor,
-                    borderRightWidthValue: obj.border.rightWidth,
+                    borderRightWidthValue: formatPrecision2(obj.border.rightWidth),
                     selBorderRightWidthUnit: obj.border.rightWidthUnit,
                     selBorderRightStyle: obj.border.rightStyle,
                     borderRightColor:obj.border.rightColor,
                     selborderRightColor: obj.border.rightColor,
-                    paddingTopValue: obj.padding.top,
+                    paddingTopValue: formatPrecision2(obj.padding.top),
                     selPaddingTopUnit: obj.padding.topUnit,
-                    paddingBottomValue: obj.padding.bottom,
+                    paddingBottomValue: formatPrecision2(obj.padding.bottom),
                     selPaddingBottomUnit: obj.padding.bottomUnit,
-                    paddingLeftValue: obj.padding.left,
+                    paddingLeftValue: formatPrecision2(obj.padding.left),
                     selPaddingLeftUnit: obj.padding.leftUnit,
-                    paddingRightValue: obj.padding.right,
+                    paddingRightValue: formatPrecision2(obj.padding.right),
                     selPaddingRightUnit: obj.padding.rightUnit,
-                    radiusTopLeftValue:obj.border.borderTopLeftRadiusWidth,
+                    radiusTopLeftValue:formatPrecision2(obj.border.borderTopLeftRadiusWidth),
                     selRadiusTopLeftUnit:obj.border.borderTopLeftRadiusWidthUnit,
-                    radiusTopRightValue:obj.border.borderTopRightRadiusWidth,
+                    radiusTopRightValue:formatPrecision2(obj.border.borderTopRightRadiusWidth),
                     selRadiusTopRightUnit:obj.border.borderTopRightRadiusWidthUnit,
-                    radiusBottomLeftValue:obj.border.borderBottomRightRadiusWidth,
+                    radiusBottomLeftValue:formatPrecision2(obj.border.borderBottomRightRadiusWidth),
                     selRadiusBottomLeftUnit:obj.border.borderBottomLeftRadiusWidthUnit,
-                    radiusBottomRightValue:obj.border.borderBottomRightRadiusWidth,
+                    radiusBottomRightValue:formatPrecision2(obj.border.borderBottomRightRadiusWidth),
                     selRadiusBottomRightUnit:obj.border.borderBottomRightRadiusWidthUnit,
                     color:obj.color.color,
                     backgroundColor:obj.color.backgroundColor,
@@ -1087,12 +1097,12 @@
                 return;
             const obj = element;
             const formData = {
-                    widthValue: obj.size.l,
+                    widthValue: formatPrecision2(obj.size.l),
                     selWidthValue:obj.size.l,
                     selWidthUnit: obj.size.lUnit,
-                    xValue: obj.position.x,
+                    xValue: formatPrecision2(obj.position.x),
                     selXUnit: obj.position.xUnit,
-                    yValue: obj.position.y,
+                    yValue: formatPrecision2(obj.position.y),
                     selYUnit: obj.position.yUnit,
                     content: obj.content,
                     color:obj.color.color,
@@ -1105,16 +1115,16 @@
                 return;
             const obj = element;
             const formData = {
-                    lineWidthValue: obj.lineWidth,
+                    lineWidthValue: formatPrecision2(obj.lineWidth),
                     selLineWidthUnit: obj.lineWidthUnit,
                     selLineStyle:obj.lineStyle,
-                    x1Value: obj.point1.x,
+                    x1Value: formatPrecision2(obj.point1.x),
                     selX1Unit: obj.point1.xUnit,
-                    y1Value: obj.point1.y,
+                    y1Value: formatPrecision2(obj.point1.y),
                     selY1Unit: obj.point1.yUnit,
-                    x2Value: obj.point2.x,
+                    x2Value: formatPrecision2(obj.point2.x),
                     selX2Unit: obj.point2.xUnit,
-                    y2Value: obj.point2.y,
+                    y2Value: formatPrecision2(obj.point2.y),
                     selY2Unit: obj.point2.yUnit,
                     color:obj.color,
             }
@@ -1125,9 +1135,9 @@
                 return;
             const obj = designer.document;
             const formData = {
-                widthValue: obj.size.w,
+                widthValue: formatPrecision2(obj.size.w),
                 selWidthUnit: obj.size.wUnit,
-                heightValue: obj.size.h,
+                heightValue: formatPrecision2(obj.size.h),
                 selHeightUnit: obj.size.hUnit,
                 backgroundColor:obj.backgroundColor,
             }
