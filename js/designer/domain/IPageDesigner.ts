@@ -23,5 +23,6 @@ export interface IPageDesigner extends IDesignerBase{
     refresh():void;
     create():void;
     open(document:IPage):void;
+    openJson(document:string):void;
     save():IPage;
 }

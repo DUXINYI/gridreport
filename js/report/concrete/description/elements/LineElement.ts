@@ -17,13 +17,12 @@ export class LineElement implements ILineElement,ICloneable<LineElement>
     lineWidth: number;
     lineWidthUnit?: string;
     constructor(initialValue?:Partial<ILineElement>){
-        if(initialValue != null){
-            Object.assign(this,initialValue);
-        }
-        if(this.point1 == null)
-            this.point1 = new Position(initialValue?.point1);
-        if(this.point2 == null)
-            this.point2 = new Position(initialValue?.point2);
+        this.point1 = new Position(initialValue?.point1);
+        this.point2 = new Position(initialValue?.point2);
+        this.color = initialValue?.color||'';
+        this.lineStyle = initialValue?.lineStyle||'solid';
+        this.lineWidth = isNaN(initialValue?.lineWidth) ? 1 : initialValue.lineWidth;
+        this.lineWidthUnit = initialValue?.lineWidthUnit;
     }
     clone(): ILineElement & LineElement {
         return new LineElement({

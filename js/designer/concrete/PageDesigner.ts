@@ -180,7 +180,10 @@ export class PageDesigner implements IPageDesigner{
     open(document: IPage): void {
         this.document = document.clone();
         this.refresh();
-
+    }
+    openJson(document: string): void {
+        this.document = new Page(JSON.parse(document));
+        this.refresh();
     }
     save(): IPage {
         return this.document.clone();

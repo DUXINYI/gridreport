@@ -9,18 +9,17 @@ import { ElementParser } from "./elements/ElementParser.js";
 export class Page implements IPage,ICloneable<Page>
 ,IOptionalInitializable<Page>,IOptionalInitializable<IPage>{
     constructor(initialValue?:Partial<IPage>){
-        if(initialValue != null){
-           Object.assign(this,initialValue);
-        }
-        if(this.elements == null){
+        debugger
+        if(initialValue?.elements == null){
             this.elements = [];
-        }else if(this.elements instanceof Array){
+        }else if(initialValue.elements instanceof Array){
             const elementParser = new ElementParser();
             this.elements = initialValue.elements.map(t=>elementParser.parse(t));
+        }else{
+            this.elements = [];
         }
-        if(this.size == null){
-            this.size = new Size();
-        }
+        this.size = new Size(initialValue?.size);
+        this.backgroundColor = initialValue?.backgroundColor||'';
     }
     clone(): IPage & Page {
         return new Page({

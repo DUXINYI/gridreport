@@ -26,16 +26,9 @@ export class QrcodeElement implements IQrcodeElement,ICloneable<QrcodeElement>
     color: IColor;
 
     constructor(initialValue?:Partial<IQrcodeElement>){
-        if(initialValue != null){
-            Object.assign(this,initialValue);
-        }
-        if(this.position == null)
             this.position = new Position(initialValue?.position);
-        if(this.size == null)
             this.size = new SizeSquare(initialValue?.size);
-        if(this.content == null)
-            this.content = '';
-        if(this.color == null)
+            this.content = initialValue?.content||'';
             this.color = new Color(initialValue?.color);
     }
     clone(): IQrcodeElement & QrcodeElement {
